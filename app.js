@@ -8,10 +8,15 @@ app.use('/users', require('./routes/userRoutes'));
 app.use('/cart', require('./routes/cartRoutes'));
 app.use('/orders', require('./routes/orderRoutes'));
 
-// GLOBAL ERROR HANDLER
-app.use((err, req, res, next) => {
-    res.status(500).json({ message: "Server Error" });
+// catch 404s
+app.use((req, res, next) => {
+    res.status(404).json({ message: 'Endpoint not found' });
 });
+
+// GLOBAL ERROR HANDLER - uses centralized module
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
+
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
