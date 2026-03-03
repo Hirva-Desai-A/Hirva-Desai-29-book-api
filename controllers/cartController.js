@@ -72,6 +72,7 @@ export const addToCart = async (req, res, next) => {
     try {
         const { userId, productId, quantity, price } = req.body;
 
+        // Validate product exists
         const product = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
@@ -80,18 +81,25 @@ export const addToCart = async (req, res, next) => {
         let cart = await Cart.findOne({ userId });
 
         if (!cart) {
+            // Create new cart if it doesn't exist
             cart = new Cart({
                 userId,
                 items: [{ productId, quantity, price }],
                 totalPrice: price * quantity
             });
         } else {
+            // Check if product already in cart
             const itemIndex = cart.items.findIndex(item => item.productId.toString() === productId);
+
             if (itemIndex > -1) {
+                // Update quantity if product exists
                 cart.items[itemIndex].quantity += quantity;
             } else {
+                // Add new product to cart
                 cart.items.push({ productId, quantity, price });
             }
+
+            // Recalculate total price
             cart.totalPrice = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
         }
 
@@ -119,11 +127,13 @@ export const updateCartItem = async (req, res, next) => {
         }
 
         if (quantity <= 0) {
+            // Remove item if quantity is 0 or less
             cart.items.splice(itemIndex, 1);
         } else {
             cart.items[itemIndex].quantity = quantity;
         }
 
+        // Recalculate total price
         cart.totalPrice = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
         cart.updatedAt = Date.now();
 
@@ -151,6 +161,8 @@ export const removeFromCart = async (req, res, next) => {
         }
 
         cart.items.splice(itemIndex, 1);
+
+        // Recalculate total price
         cart.totalPrice = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
         cart.updatedAt = Date.now();
 

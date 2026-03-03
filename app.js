@@ -9,6 +9,12 @@ import orderRoutes from "./routes/orderRoutes.js";
 
 import errorHandler from "./middleware/errorHandler.js";
 
+// seed helpers
+import { seedProducts } from "./controllers/productController.js";
+import { seedUsers } from "./controllers/userController.js";
+import { seedCarts } from "./controllers/cartController.js";
+import { seedOrders } from "./controllers/orderController.js";
+
 dotenv.config();
 
 const app = express();
@@ -19,7 +25,13 @@ app.use(express.json());
 // MongoDB connection
 mongoose
     .connect(process.env.MONGODB_URI)
-    .then(() => console.log("MongoDB connected successfully"))
+    .then(async () => {
+        console.log("MongoDB connected successfully");
+        await seedProducts();
+        await seedUsers();
+        await seedCarts();
+        await seedOrders();
+    })
     .catch((err) => {
         console.error("MongoDB connection error:", err.message);
         process.exit(1);
