@@ -1,34 +1,40 @@
-import React, { useContext } from "react";
-import { CartContext } from "../context/CartContext";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function Cart() {
-    const { cart, removeFromCart } = useContext(CartContext);
+    const { cart, removeFromCart, updateQuantity, cartTotal } = useCart();
+
+    if (cart.length === 0)
+        return (
+            <div className="empty-cart">
+                <h2>Your cart is empty</h2>
+                <Link to="/"><button className="btn">Continue Shopping</button></Link>
+            </div>
+        );
 
     return (
-        <div className="container">
-            <h2>Your Shopping Cart</h2>
-            {cart.length === 0 ? (
-                <p>Your cart is empty. <Link to="/">Start shopping</Link></p>
-            ) : (
-                <div>
-                    {cart.map((item, index) => (
-                        <div key={index} style={{ display: "flex", borderBottom: "1px solid #ddd", padding: "10px 0" }}>
-                            <img src={item.image} alt={item.title} style={{ width: "80px", marginRight: "20px" }} />
-                            <div>
-                                <h4>{item.title}</h4>
-                                <p className="price">${item.price}</p>
-                                <button className="btn" style={{ backgroundColor: "#d9534f" }} onClick={() => removeFromCart(item.id)}>
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                    <div style={{ marginTop: "20px" }}>
-                        <Link to="/checkout"><button className="btn">Proceed to Checkout</button></Link>
+        <div className="cart-container">
+            <h2 className="page-title">Shopping Cart</h2>
+            {cart.map((item) => (
+                <div className="cart-item" key={item.id}>
+                    <img src={item.image} alt={item.title} className="cart-item-img" />
+                    <div className="cart-item-info">
+                        <h4>{item.title}</h4>
+                        <p className="price">${item.price}</p>
+                    </div>
+                    <div className="cart-item-controls">
+                        <button className="qty-btn" onClick={() => updateQuantity(item.id, item.quantity - 1)}>−</button>
+                        <span className="qty-display">{item.quantity}</span>
+                        <button className="qty-btn" onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                        <button className="btn btn-danger" onClick={() => removeFromCart(item.id)}>Remove</button>
                     </div>
                 </div>
-            )}
+            ))}
+            <div className="cart-summary">
+                <div className="cart-total">Total: <strong>${cartTotal.toFixed(2)}</strong></div>
+                <Link to="/checkout"><button className="btn btn-large">Proceed to Checkout</button></Link>
+            </div>
         </div>
     );
 }
