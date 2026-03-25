@@ -7,6 +7,21 @@ const userInfo = document.getElementById('user-info');
 const welcomeMessage = document.getElementById('welcome-message');
 const statusMsg = document.getElementById('status-msg');
 
+// --- Auth Toggle Logic ---
+document.getElementById('show-register').addEventListener('click', () => {
+    document.getElementById('register-box').classList.remove('hidden');
+    document.getElementById('login-box').classList.add('hidden');
+    document.getElementById('show-register').classList.add('active');
+    document.getElementById('show-login').classList.remove('active');
+});
+
+document.getElementById('show-login').addEventListener('click', () => {
+    document.getElementById('login-box').classList.remove('hidden');
+    document.getElementById('register-box').classList.add('hidden');
+    document.getElementById('show-login').classList.add('active');
+    document.getElementById('show-register').classList.remove('active');
+});
+
 let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 let enrolledIds = []; // To track what the user already has
 
@@ -18,7 +33,6 @@ function showMessage(text, isError = false) {
     statusMsg.className = `status-container ${isError ? 'error-text' : 'success-text'}`;
     statusMsg.style.display = 'block';
 
-    // Auto-hide after 3 seconds
     setTimeout(() => {
         statusMsg.style.display = 'none';
     }, 3000);
@@ -37,7 +51,11 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         });
         const data = await response.json();
         showMessage(data.message, !response.ok);
-        if (response.ok) e.target.reset();
+        if (response.ok) {
+            e.target.reset();
+            // Optional: Automatically switch to login tab after successful registration
+            document.getElementById('show-login').click();
+        }
     } catch (err) { showMessage("Registration failed.", true); }
 });
 
@@ -144,7 +162,7 @@ window.enrollStudent = async function (courseId) {
 };
 
 window.unenrollCourse = async function (courseId) {
-    if (!confirm("Remove this course?")) return;
+    // The confirm() popup has been removed!
     try {
         const response = await fetch(`${API_URL}/unenroll`, {
             method: 'POST',
@@ -158,5 +176,7 @@ window.unenrollCourse = async function (courseId) {
         } else {
             showMessage(data.message, true);
         }
-    } catch (err) { showMessage("Network error during removal.", true); }
+    } catch (err) {
+        showMessage("Network error during removal.", true);
+    }
 };

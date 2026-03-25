@@ -17,23 +17,27 @@
         </div>
     </header>
     <main>
-        <section id="auth-section" class="auth-forms">
-            <div class="auth-box">
-                <h2>Log In</h2>
-                <form id="login-form">
-                    <input type="email" id="login-email" placeholder="Email" required>
-                    <button type="submit">Log In</button>
-                </form>
-                <p id="login-message"></p>
+        <section id="auth-section" class="auth-container">
+            <div class="auth-toggle">
+                <button id="show-register" class="toggle-btn active">Register</button>
+                <button id="show-login" class="toggle-btn">Log In</button>
             </div>
-            <div class="auth-box">
-                <h2>Register</h2>
+
+            <div id="register-box" class="auth-box">
+                <h2>Create an Account</h2>
                 <form id="register-form">
-                    <input type="text" id="reg-name" placeholder="Name" required>
-                    <input type="email" id="reg-email" placeholder="Email" required>
-                    <button type="submit">Register</button>
+                    <input type="text" id="reg-name" placeholder="Full Name" required>
+                    <input type="email" id="reg-email" placeholder="Email Address" required>
+                    <button type="submit" class="primary-btn">Register</button>
                 </form>
-                <p id="reg-message"></p>
+            </div>
+
+            <div id="login-box" class="auth-box hidden">
+                <h2>Welcome Back</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Email Address" required>
+                    <button type="submit" class="primary-btn">Log In</button>
+                </form>
             </div>
         </section>
 
