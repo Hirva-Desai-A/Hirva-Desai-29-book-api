@@ -1,77 +1,21 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #0056b3;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-}
-
-main {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-.form-container {
-    background: white;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-form input {
-    display: block;
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-button:hover {
-    background-color: #218838;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.grid-layout {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-.course-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* public/style.css */
 /* public/style.css */
 :root {
-    --primary-color: #0056b3;
-    --background: #f4f7f6;
+    /* Color Palette */
+    --primary-color: #6f42c1;
+    /* Purple */
+    --primary-hover: #59339d;
+    /* Darker Purple */
+    --secondary-color: #28a745;
+    /* Green */
+    --secondary-hover: #218838;
+    /* Darker Green */
+    --danger-color: #dc3545;
+    /* Red */
+    --danger-hover: #a71d2a;
+
+    /* Layout Colors */
+    --background: #f7f5fa;
+    /* Light purple-tinted background */
     --card-bg: #ffffff;
     --text-color: #333;
 }
@@ -79,6 +23,7 @@ button:hover {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--background);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
 }
@@ -86,8 +31,9 @@ body {
 header {
     background-color: var(--primary-color);
     color: white;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 main {
@@ -104,36 +50,6 @@ section {
     margin-bottom: 2rem;
 }
 
-.hidden {
-    display: none !important;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
-
-th,
-td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.remove-btn {
-    background-color: #dc3545;
-}
-
 .auth-forms {
     display: flex;
     gap: 2rem;
@@ -146,29 +62,54 @@ button {
 }
 
 input {
+    display: block;
+    width: 100%;
     padding: 0.8rem;
+    margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%;
     box-sizing: border-box;
-    margin-bottom: 10px;
+    transition: border-color 0.3s;
 }
 
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
 
-
+/* Default Buttons (Login/Register/Logout) are Purple */
 button {
-    padding: 0.8rem;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 4px;
+    padding: 0.8rem 1.5rem;
     cursor: pointer;
+    border-radius: 4px;
     font-size: 1rem;
     transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #004494;
+    background-color: var(--primary-hover);
+}
+
+/* Action Buttons inside tables (Add Course) are Green */
+td button {
+    background-color: var(--secondary-color);
+    padding: 0.6rem 1.2rem;
+}
+
+td button:hover {
+    background-color: var(--secondary-hover);
+}
+
+/* Remove Buttons are Red */
+.remove-btn {
+    background-color: var(--danger-color) !important;
+}
+
+.remove-btn:hover {
+    background-color: var(--danger-hover) !important;
 }
 
 table {
@@ -186,20 +127,39 @@ td {
 
 th {
     background-color: #f8f9fa;
+    color: var(--primary-color);
+    /* Purple column headers */
 }
 
 .hidden {
     display: none !important;
 }
 
-.error-text {
-    color: red;
-    font-size: 0.9rem;
+#my-courses-section {
+    border-left: 5px solid var(--secondary-color);
+    /* Green accent border for enrolled courses */
+}
+
+/* Status Message Styling */
+.status-container {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+    display: none;
 }
 
 .success-text {
-    color: green;
-    font-size: 0.9rem;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error-text {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
 /* Mobile Responsiveness */
@@ -236,41 +196,4 @@ th {
         font-weight: bold;
         text-align: left;
     }
-}
-
-.remove-btn {
-    background-color: #dc3545;
-    /* Red color for removal */
-}
-
-.remove-btn:hover {
-    background-color: #a71d2a;
-}
-
-#my-courses-section {
-    border-left: 5px solid #28a745;
-    /* Green border to distinguish from available list */
-}
-
-/* Status Message Styling */
-.status-container {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: bold;
-    display: none;
-    /* Hidden by default */
-}
-
-.success-text {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.error-text {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
 }
